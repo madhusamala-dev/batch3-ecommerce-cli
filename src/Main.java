@@ -1,8 +1,14 @@
+import com.stschool.ecommerce.controller.CustomerController;
 import com.stschool.ecommerce.exception.CustomerExistsException;
 import com.stschool.ecommerce.exception.CustomerNotFoundException;
 import com.stschool.ecommerce.exception.InvalidCredentialsException;
+import com.stschool.ecommerce.factory.AppFactory;
 import com.stschool.ecommerce.model.Customer;
+import com.stschool.ecommerce.repository.CustomerRepository;
+import com.stschool.ecommerce.service.CustomerService;
+import com.stschool.ecommerce.service.CustomerServiceImpl;
 import com.stschool.ecommerce.ui.CustomerUI;
+import com.stschool.ecommerce.util.CsvReader;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -14,8 +20,8 @@ public class Main {
        /* CsvReader csvReader = new CsvReader();
         CustomerRepository customerRepository = new CustomerRepository(csvReader);
         System.out.println(customerRepository.getCustomers());*/
-
-        CustomerUI customerUI = new CustomerUI();
+        CustomerController customerController = AppFactory.getCustomerControllerInstance();
+         CustomerUI customerUI = new CustomerUI(customerController);
        /* try {
             Customer registeredCustomer = customerUI.registerCustomer();
             if(registeredCustomer != null)
@@ -33,5 +39,7 @@ public class Main {
         } catch(CustomerNotFoundException | InvalidCredentialsException e){
             System.out.println(e.getMessage());
         }
+
+
     }
 }

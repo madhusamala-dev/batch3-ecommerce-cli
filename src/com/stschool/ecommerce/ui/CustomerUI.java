@@ -5,43 +5,37 @@ import com.stschool.ecommerce.exception.CustomerExistsException;
 import com.stschool.ecommerce.exception.CustomerNotFoundException;
 import com.stschool.ecommerce.exception.InvalidCredentialsException;
 import com.stschool.ecommerce.model.Customer;
+import com.stschool.ecommerce.util.InputUtil;
 
 import java.util.Scanner;
 
 public class CustomerUI {
+    private final CustomerController customerController;
+
+    public CustomerUI(CustomerController customerController) {
+        this.customerController = customerController;
+    }
 
     public Customer registerCustomer() throws CustomerExistsException {
         System.out.println("Customer Registration Form");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Id: ");
-        int id = scanner.nextInt();
-        System.out.println("Enter Name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter Email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter Password: ");
-        String password = scanner.nextLine();
-        System.out.println("Enter Phone: ");
-        String phone = scanner.nextLine();
+        int id = InputUtil.getIntInput("Enter Customer ID: ");
+        String name = InputUtil.getStringInput("Enter Customer Name: ");
+        String email = InputUtil.getStringInput("Enter Customer Email: ");
+        String password = InputUtil.getStringInput("Enter Customer Password: ");
+        String phone = InputUtil.getStringInput("Enter Customer Phone: ");
         Customer customer = new Customer();
         customer.setId(id);
         customer.setName(name);
         customer.setEmail(email);
         customer.setPassword(password);
         customer.setPhone(phone);
-        scanner.close();
-        CustomerController customerController = new CustomerController();
-        return customerController.save(customer);
+        InputUtil.closeScanner();
+         return customerController.save(customer);
 
     }
     public Customer loginCustomer() throws InvalidCredentialsException, CustomerNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter Password: ");
-        String password = scanner.nextLine();
-        CustomerController customerController = new CustomerController();
-        scanner.close();
+        String email = InputUtil.getStringInput("Enter Customer Email: ");
+        String password = InputUtil.getStringInput("Enter Customer Password: ");
         return customerController.login(email,password);
 
     }

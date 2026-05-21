@@ -9,6 +9,12 @@ import com.stschool.ecommerce.util.CsvReader;
 
 public class CustomerServiceImpl implements CustomerService{
 
+    private final CustomerRepository customerRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
+    }
+
 
 
     @Override
@@ -19,8 +25,6 @@ public class CustomerServiceImpl implements CustomerService{
         3. if not exist then save customer
 
          */
-        CsvReader csvReader = new CsvReader();
-        CustomerRepository customerRepository = new CustomerRepository(csvReader);
         if(customerRepository.existsByEmail(customer.getEmail()) != null)
             throw new CustomerExistsException("Customer already exists with email: " + customer.getEmail());
 
@@ -29,8 +33,6 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer login(String email, String password) throws CustomerNotFoundException, InvalidCredentialsException {
-        CsvReader csvReader = new CsvReader();
-        CustomerRepository customerRepository = new CustomerRepository(csvReader);
         Customer existingCustomer = customerRepository.existsByEmail(email);
         if(existingCustomer == null)
             throw new CustomerNotFoundException("Customer not found with email: " + email);

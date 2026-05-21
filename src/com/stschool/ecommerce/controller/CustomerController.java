@@ -9,16 +9,20 @@ import com.stschool.ecommerce.service.CustomerServiceImpl;
 
 public class CustomerController {
 
+    private final CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     public Customer save(Customer customer) throws CustomerExistsException {
 
-        CustomerService customerService = new CustomerServiceImpl();
         return customerService.save(customer);
 
 
     }
 
     public Customer login(String email, String password) throws InvalidCredentialsException, CustomerNotFoundException {
-        CustomerService customerService = new CustomerServiceImpl();
-        return customerService.login(email,password);
+         return customerService.login(email,password);
     }
 }
